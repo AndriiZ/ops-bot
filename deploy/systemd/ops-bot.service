@@ -1,0 +1,38 @@
+[Unit]
+Description=ops-bot — Telegram-бот керування сервісами
+After=network-online.target
+Wants=network-online.target
+# Before the first deploy, app does not exist: systemd does not start the service again and again.
+ConditionPathExists=/opt/ops-bot/app/OpsBot
+
+[Service]
+Type=exec
+User=ops-bot
+Group=ops-bot
+# The button "Journal" reads the journal of the services.
+SupplementaryGroups=systemd-journal
+# app is a link to the active release. systemd reads the link at each start, thus a restart uses the new release.
+WorkingDirectory=/opt/ops-bot/app
+ExecStart=/opt/ops-bot/app/OpsBot
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_NOLOGO=1
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+TimeoutStopSec=30
+SyslogIdentifier=ops-bot
+
+# The bot has no root rights: it only reads /opt and writes /opt/ops-bot/data.
+# The deploys run in ops-runner.service (root) on the request files.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ReadWritePaths=/opt/ops-bot/data
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=ops-bot — запити на розгортання від бота
+
+[Path]
+# The bot writes the request files; ops-runner.service examines them and removes them.
+PathExistsGlob=/opt/ops-bot/data/requests/*.req
+Unit=ops-runner.service
+
+[Install]
+WantedBy=paths.target

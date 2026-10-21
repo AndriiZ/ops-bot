@@ -1,0 +1,10 @@
+[Unit]
+Description=ops-bot — розгортання й відкат за запитами бота
+
+[Service]
+Type=oneshot
+# Root rights are necessary: deploy.sh changes /opt/<id> and restarts the units. The bot does not get these rights.
+ExecStart=/opt/ops-bot/bin/ops-runner.sh
+# ops-runner stops one deploy after 30 minutes; a run can have more than one request.
+TimeoutStartSec=2h
+SyslogIdentifier=ops-runner

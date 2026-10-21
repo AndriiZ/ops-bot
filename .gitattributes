@@ -1,0 +1,8 @@
+* text=auto
+
+# The scripts and the units run on Linux hosts.
+*.sh       text eol=lf
+deploy/**  text eol=lf
+template/** text eol=lf
+
+*.png      binary

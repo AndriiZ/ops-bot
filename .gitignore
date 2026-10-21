@@ -1,9 +1,16 @@
-bin/
-obj/
+# The output of .NET. Not "bin/": deploy/bin/ has the scripts of the host.
+src/*/bin/
+src/*/obj/
+tests/*/bin/
+tests/*/obj/
+build/
 out/
-.vscode/
+TestResults/
 .vs/
-appsettings.Development.json
+.vscode/
+.idea/
 *.user
 *.log
 .env
+appsettings.Development.json
+appsettings.Local.json

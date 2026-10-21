@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>OpsBot</RootNamespace>
+    <!-- build.sh adds the number of commits: 1.0.0.<N> (README.md §3). -->
+    <Version>1.0.0</Version>
+    <UserSecretsId>ops-bot</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="OpsBot.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Telegram.Bot" />
+  </ItemGroup>
+
+</Project>

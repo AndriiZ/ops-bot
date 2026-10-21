@@ -1,0 +1,37 @@
+# The systemd unit of a service (the standard of services, ops-bot/README.md §2).
+# Replace "demo" with the id of the service and "Demo" with the file ENTRY of service.env.
+[Unit]
+Description=Demo service
+After=network-online.target
+Wants=network-online.target
+# Before the first deploy, app does not exist: systemd does not start the service again and again.
+ConditionPathExists=/opt/demo/app/Demo
+
+[Service]
+Type=exec
+User=demo
+Group=demo
+# app is a link to the active release. systemd reads the link at each start, thus a restart uses the new release.
+WorkingDirectory=/opt/demo/app
+ExecStart=/opt/demo/app/Demo
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_NOLOGO=1
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+TimeoutStopSec=30
+SyslogIdentifier=demo
+
+# The file system is read-only for the service, except data/.
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+ReadWritePaths=/opt/demo/data
+
+[Install]
+WantedBy=multi-user.target
